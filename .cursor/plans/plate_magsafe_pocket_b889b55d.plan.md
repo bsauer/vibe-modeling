@@ -115,7 +115,7 @@ The phone sits flush in a tight well and is held by roughly 0.65–1.5 kgf of ma
 
 ## Cable path
 
-Goal: the cable leaves the plate at the **back edge (+Y)**, away from the user, never across the front or the user's side. Assumption to confirm with the user before the script runs: "exit through the top of the plate" means the back (+Y) edge. If it means rising out of the top surface instead, revise this section.
+Goal: the cable leaves the plate at the **back edge (+Y)**, away from the user, never across the front or the user's side. User confirmed (2026-10-22): "exit through the top of the plate" means the back (+Y) edge.
 
 The camera slot blocks a straight run to +Y from the pocket, so the cable goes around the +X side, where the rim is solid:
 
