@@ -25,6 +25,16 @@ upstream version, and current host-managed files. Do not replace root policy or
 host playbooks wholesale. See
 `playbooks/how_to_update_submodule_and_synthesize_host_overrides.md`.
 
+### This workspace's Git remotes
+
+This checkout is the personal fork [bsauer/vibe-modeling](https://github.com/bsauer/vibe-modeling)
+with remotes:
+
+- `origin` → `bsauer/vibe-modeling` (push target; `main` tracks `origin/main`)
+- `upstream` → `cjtrowbridge/vibe-modeling` (canonical source; fetch/merge from here)
+
+Full remote, submodule, and sync notes: `docs/workspace-git-setup.md`.
+
 ## How To Use This Pipeline
 
 1. Fork or clone this repository.
@@ -63,7 +73,8 @@ If the agent follows the included playbooks, it should also document what it cha
 - `templates/`
   - Host plan, journal, synthesis, and report templates
 - `references/`
-  - Host operational guidance plus domain packages under `references/engineering/`
+  - Host operational guidance; engineering packages under `references/engineering/`;
+    printers, slicers, filament, and CAD notes under `references/tooling/`
 - `pyproject.toml`, `uv.lock`, `.python-version`
   - uv-managed Python 3.13 environment. Direct dependencies are NumPy, SciPy, Matplotlib, and manifold3d 3.3.2.
 - `scripts/`
@@ -95,7 +106,8 @@ If the agent follows the included playbooks, it should also document what it cha
   - revision snapshots and artifact checkpoints (generated; committed and pushed)
 - `docs/`
   - supplemental documentation; `docs/solarpunk_series.md` is the canonical
-    source of truth for all `solarpunk_*` designs (each design README links back to it)
+    source of truth for all `solarpunk_*` designs (each design README links back to it);
+    `docs/workspace-git-setup.md` records this checkout's fork remotes
 - `playbooks/`
   - repeatable workflows for agents and humans
 

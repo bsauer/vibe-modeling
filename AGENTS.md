@@ -86,6 +86,12 @@ any pending reports other than the directory README.
 
 ## 5. Git Checkpoints
 
+This workspace uses a personal GitHub fork. See `docs/workspace-git-setup.md`:
+`origin` is `bsauer/vibe-modeling` (writable); `upstream` is
+`cjtrowbridge/vibe-modeling` (canonical source). Push to `origin` unless the
+user explicitly directs otherwise. Do not push to `upstream` without explicit
+authorization.
+
 When working in Git:
 
 1. Check `git status -sb` before and after the task.
@@ -156,6 +162,17 @@ Engineering references:
 All engineering references live under `references/engineering/`. Versioned source
 packages are immutable and remain subordinate to this host policy.
 
+Tooling references:
+
+- `references/tooling/README.md` - Printer, slicer, filament, and CAD-application catalog index.
+- `references/tooling/printers/snapmaker/u1.md` - Snapmaker U1 bed volume, edge clearance, nozzle/time tradeoffs.
+- `references/tooling/slicers/snapmaker-orca.md` - Snapmaker Orca 3MF portability, scarf enum encoding, paint workflows.
+- `references/tooling/filament/snapmaker-pla-snapspeed.md` - Snapmaker PLA SnapSpeed temps and drying.
+- `references/tooling/cad/README.md` - Placeholder for CAD application notes.
+
+All tooling references live under `references/tooling/`. Design-specific slice
+forks remain under `designs/<design>/`.
+
 Templates:
 
 - `templates/task_execution_plan.md` - Required plan shape and checklist syntax.
@@ -176,7 +193,9 @@ Keep the documented repository layout synchronized with `README.md`:
 - `journal/`: host-owned daily checkpoint records.
 - `downtime/reports/pending|reviewed/`: optional maintenance reports.
 - `playbooks/`, `templates/`: host-managed workflows and templates.
-- `references/`: operational guidance and engineering material namespaced under `references/engineering/`.
+- `references/`: operational guidance; engineering material under
+  `references/engineering/`; printers/slicers/filament/CAD notes under
+  `references/tooling/`.
 - `scripts/`: automation, including CAD tools.
 - `pyproject.toml`, `uv.lock`, `.python-version`: uv-managed Python 3.13
   environment. Direct dependencies are NumPy, SciPy, Matplotlib, and
@@ -185,7 +204,8 @@ Keep the documented repository layout synchronized with `README.md`:
 - `output/`: generated current/scratch outputs.
 - `revisions/`: generated numbered snapshots.
 - `docs/`: supplemental artifacts, including `docs/solarpunk_series.md`, the
-  canonical source of truth for all `solarpunk_*` designs.
+  canonical source of truth for all `solarpunk_*` designs, and
+  `docs/workspace-git-setup.md` for this checkout's GitHub fork remotes.
 
 Design navigation: `designs/6u_cyberdeck/README.md` describes the standalone
 four-quadrant 6U case with an internal rear-center bridge and a two-piece lower-4U

@@ -12,6 +12,9 @@ explicitly approved.
 
 - Git installed and available in your shell
 - Access to the remote `origin` (if pushing)
+- For this workspace's fork remotes (`origin` = personal fork,
+  `upstream` = `cjtrowbridge/vibe-modeling`), read
+  `docs/workspace-git-setup.md` before choosing a push target
 
 ## Step-by-Step Instructions
 

@@ -4,6 +4,11 @@ Source: `Duo Desk Stand with watch charger-snapmakeru1.3mf`
 Fork: `Duo Desk Stand with watch charger-snapmakeru1-recommended.3mf`  
 Machine: Snapmaker U1 · Nozzle: 0.4 mm · Filament: Snapmaker PLA SnapSpeed Black
 
+Reusable host notes (not design-specific):  
+`references/tooling/printers/snapmaker/u1.md`,  
+`references/tooling/slicers/snapmaker-orca.md`,  
+`references/tooling/filament/snapmaker-pla-snapspeed.md`.
+
 Open the **recommended** 3MF in Snapmaker Orca, complete the manual steps below, then slice.
 
 ## Encoded in the forked 3MF
