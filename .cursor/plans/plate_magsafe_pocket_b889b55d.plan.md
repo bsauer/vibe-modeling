@@ -57,9 +57,9 @@ The well holds the phone to about 0.6 mm per side and MagSafe self-alignment is 
 
 ## Puck
 
-Target puck: Apple **25 W MagSafe Charger (A2580 / A3250)**, **Ø 55.4–55.5 mm × 4.45–4.53 mm** per the reference, braided cable about **Ø 2.35 mm** exiting radially from the rim (confirmed by the Folio photo in the design folder). Treat the following as unverified until measured with calipers in the `measure` step: cable exit height above the puck back, strain-relief collar diameter and length, and whether any molded elbow exists.
+Target puck: Apple **25 W MagSafe Charger (A2580 / A3250)**. User confirmed 2026-10-22 that the puck in hand is this 25 W charger. Published size **Ø 55.4–55.5 mm × 4.45–4.53 mm**, braided cable about **Ø 2.35 mm** exiting radially from the rim (Folio photo in the design folder). Still unverified until the `measure` step: diameter, rim thickness, cable diameter, cable-center height above the puck back, and any strain-relief collar length and diameter.
 
-Stop condition: if the puck in hand is the older **15 W (A2140)**, or the caliper values differ from the above by more than 0.2 mm, stop and revise the plan before cutting.
+Stop condition: if a caliper value differs from the published size by more than 0.2 mm, or a molded elbow is present, stop and revise the plan before cutting.
 
 ## The pocket
 
