@@ -158,6 +158,8 @@ Engineering references:
 - `references/engineering/servo/designing-for-servos.md` - Servo selection, geometry, mounting, and validation guidance.
 - `references/engineering/servo/working-with-servo-receivers.md` - Servo-receiver interfaces and integration guidance.
 - `references/engineering/ten_inch_rack/README.md` - Versioned ten-inch-rack specification package, host overrides, provenance, and validation entrypoint.
+- `references/engineering/apple/iphone_duo/README.md` - Apple iPhone Duo envelopes, official Folio/Case docks, MagSafe Attach / MFi / Qi2 accessory rules.
+- `references/engineering/apple/apple_pencil/README.md` - Official Apple Pencils sold today: envelopes, tips, charge/pair, Duo USB-C support, ADG gaps.
 
 All engineering references live under `references/engineering/`. Versioned source
 packages are immutable and remain subordinate to this host policy.

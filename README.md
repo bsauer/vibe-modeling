@@ -73,8 +73,13 @@ If the agent follows the included playbooks, it should also document what it cha
 - `templates/`
   - Host plan, journal, synthesis, and report templates
 - `references/`
-  - Host operational guidance; engineering packages under `references/engineering/`;
-    printers, slicers, filament, and CAD notes under `references/tooling/`
+  - Host operational guidance; engineering packages under `references/engineering/`
+    (including Apple iPhone Duo accessory notes under
+    `references/engineering/apple/iphone_duo/`); printers, slicers, filament, and
+    CAD notes under `references/tooling/`
+- `reports/`, `research_notes/`
+  - Occasional research syntheses and source notes (for example iPhone Duo
+    accessory design); engineering authority remains under `references/`
 - `pyproject.toml`, `uv.lock`, `.python-version`
   - uv-managed Python 3.13 environment. Direct dependencies are NumPy, SciPy, Matplotlib, and manifold3d 3.3.2.
 - `scripts/`
