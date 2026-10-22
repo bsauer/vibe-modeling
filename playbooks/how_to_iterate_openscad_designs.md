@@ -8,7 +8,7 @@ Provide a repeatable local workflow to iterate OpenSCAD prototypes, generate mul
 
 ## Prerequisites
 
-- Python 3.8+
+- uv, and the Python 3.13 environment from `uv sync` (see `README.md`)
 - OpenSCAD installed locally
 - Read and apply `playbooks/how_to_design_and_verify_structural_openscad_joins.md` for any structural geometry
 - Read `playbooks/how_to_create_verify_and_publish_immutable_openscad_revisions.md`

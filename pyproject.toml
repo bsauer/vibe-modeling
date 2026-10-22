@@ -1,0 +1,12 @@
+[project]
+name = "vibe-modeling"
+version = "0.1.0"
+description = "OpenSCAD modeling pipeline"
+# manifold3d 3.3.2 publishes wheels through CPython 3.13 only.
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "manifold3d==3.3.2",
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.4",
+    "scipy>=1.18.1",
+]

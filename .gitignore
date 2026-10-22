@@ -3,6 +3,7 @@
 designs/ac_redirectors/docs/
 
 # Python runtime artifacts
+.venv/
 __pycache__/
 *.pyc
 

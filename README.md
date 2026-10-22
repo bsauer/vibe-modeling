@@ -64,6 +64,8 @@ If the agent follows the included playbooks, it should also document what it cha
   - Host plan, journal, synthesis, and report templates
 - `references/`
   - Host operational guidance plus domain packages under `references/engineering/`
+- `pyproject.toml`, `uv.lock`, `.python-version`
+  - uv-managed Python 3.13 environment. Direct dependencies are NumPy, SciPy, Matplotlib, and manifold3d 3.3.2.
 - `scripts/`
   - `scad_build.py` / `scad_build.sh`: build STL + the full required multi-view PNG set from a config
   - `scad_build_all.py`: stage, validate, install, and audit every part declared by a design
@@ -149,10 +151,17 @@ Choose and verify split seams through
 
 ## Prerequisites
 
-- Python 3.8+
-- OpenSCAD installed locally
-- Optional: `openscad` on your `PATH`
-  - If not on `PATH`, pass `--openscad-path /path/to/openscad`
+- [uv](https://docs.astral.sh/uv/)
+- Python 3.13, pinned in `.python-version`. manifold3d 3.3.2 publishes wheels through CPython 3.13 only, and the Cicero mesh generators require that exact release.
+- OpenSCAD on `PATH` (`openscad --version`). On macOS, `brew install --cask openscad@snapshot` installs the current build and links the `openscad` command. If it is not on `PATH`, pass `--openscad-path /path/to/openscad`.
+
+Install the Python environment from the repository root:
+
+```bash
+uv sync
+```
+
+Run project Python with `uv run`, for example `uv run python scripts/scad_build.py ...`. Direct dependencies are NumPy, SciPy, Matplotlib, and manifold3d 3.3.2.
 
 ## Quick start
 

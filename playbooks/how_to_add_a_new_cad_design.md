@@ -8,7 +8,7 @@ Add a new OpenSCAD design under `designs/<design>/` with its own source tree and
 
 ## Prerequisites
 
-- Python 3.8+
+- uv, and the Python 3.13 environment from `uv sync` (see `README.md`)
 - OpenSCAD installed locally (only required for full build verification)
 - Run commands from the repository root
 

@@ -178,6 +178,9 @@ Keep the documented repository layout synchronized with `README.md`:
 - `playbooks/`, `templates/`: host-managed workflows and templates.
 - `references/`: operational guidance and engineering material namespaced under `references/engineering/`.
 - `scripts/`: automation, including CAD tools.
+- `pyproject.toml`, `uv.lock`, `.python-version`: uv-managed Python 3.13
+  environment. Direct dependencies are NumPy, SciPy, Matplotlib, and
+  manifold3d 3.3.2. Run project Python with `uv run`.
 - `designs/`: committed OpenSCAD source and configs.
 - `output/`: generated current/scratch outputs.
 - `revisions/`: generated numbered snapshots.
