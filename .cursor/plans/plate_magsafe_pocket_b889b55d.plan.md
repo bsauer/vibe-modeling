@@ -4,16 +4,16 @@ overview: Add a top-drop Apple 25 W MagSafe pocket to the 260 mm sloped Duo plat
 todos:
   - id: host-plan
     content: Write and promote a short current host plan for the mesh edit under plans/current, regenerate and check plan indexes.
-    status: pending
+    status: completed
   - id: measure
     content: Caliper the 25 W puck (diameter, thickness, cable exit height, strain-relief collar length and diameter). Record values; stop if they differ from the assumptions below.
     status: pending
   - id: script
     content: "Add add_magsafe_pocket.py with named constants and asserts: pocket at the X-ray ring center, Ø34 floor opening with ledge, all 20 round vents filled and replaced by the slot grille, floor slot, pinched bottom raceway to the back edge, thumb notch. One function builds both the plate and the coupons."
-    status: pending
+    status: completed
   - id: coupons
     content: Generate the fit-coupon 3MF (center-check template plus three bore coupons) and print it.
-    status: pending
+    status: in_progress
   - id: tune
     content: Apply coupon results to the constants (ring center, bore diameter, pinch width). Record the chosen values and why.
     status: pending
@@ -37,7 +37,7 @@ The file [designs/iphone-duo/iPhone-Duo-Plate/iPhone Duo Plate 260 sloped.3mf](d
 
 - Phone well: X −82.5 to +83.3, Y −59.1 to +59.9 (**165.8 × 119.0 mm**), about 0.6 mm clearance per side around the open phone (164.6 × 117.8 × 5.2 mm). Well depth **5.25 mm**, so the phone sits flush with the rim. Well center is **(0.4, 0.4)**.
 - Floor under the well is **6.75 mm** (Z 0 to 6.75).
-- Camera slot: through opening X 15.5 to 82.5, Y 29.1 to 59.1 (**67 × 30 mm**) in the +X / +Y corner.
+- Camera slot: through opening X 15.5 to 82.5, Y 29.1 to 59.1 (**67 × 30 mm** stadium with fully rounded ends) in the +X / +Y corner.
 - Twenty **Ø18 mm** through vents. No finger notch. No charger.
 
 Orientation: the camera end of the phone is +Y. With the phone open in landscape, that is the edge farthest from the user, so **+Y is the back edge** and −Y faces the user. The camera half is +X.
@@ -90,7 +90,8 @@ Layout rules, all named constants:
 | `vent_border_margin` | 7.0 mm | Solid band inside the well wall |
 | `vent_feature_margin` | 6.0 mm | Constant gap to the bore, camera slot, floor slot, and thumb notch |
 | `vent_spine_width` | 10.0 mm | Solid band on the hinge line, splitting the grille into two fields |
-| `vent_min_slot_length` | 15.0 mm | Drop shorter fragments so no orphan slots appear |
+| `vent_min_slot_length` | 15.0 mm | Drop shorter fragments |
+| anchoring rule | — | Keep a slot only if at least one end reaches the border band; drops the island between the pocket and the camera slot |
 | `vent_top_chamfer` | 0.5 mm | Softens the slot edges under the cover display; top land stays 2.5 mm |
 
 Slot positions are mirrored about the hinge line, starting one half-pitch outside the spine band. Each slot line is clipped to the allowed region (well inset by the border margin, minus every feature keep-out, minus the spine), and each surviving segment becomes one pill.
@@ -120,17 +121,20 @@ Goal: the cable leaves the plate at the **back edge (+Y)**, away from the user, 
 The camera slot blocks a straight run to +Y from the pocket, so the cable goes around the +X side, where the rim is solid:
 
 1. **Gate**: a 5 mm wide opening in the bore wall at the puck's +X rim, open at the top, so puck and cable drop in together. Width is confirmed against the measured strain-relief collar.
-2. **Floor slot**: a through slot in the well floor, about **3.0 mm** wide, running about **12 mm** in +X from the gate to just inside the well wall. The cable descends gradually from its exit height on the puck rim (about 4.4 mm above the plate bottom) into the raceway below. No sharp bend at the strain relief. The phone covers the slot.
-3. **Bottom raceway**: open on the bottom, **2.8 mm** wide × **3.2 mm** deep, continuing in +X under the solid rim to about X = 100, then turning to +Y with a centerline bend radius of at least **20 mm**, and running straight to the **+Y back edge**. It never crosses a grille slot or the camera slot.
-4. **Pinch points**: three short narrowings, each about 3 mm long, where the raceway mouth closes to **2.05 mm** (coupon variants 1.9 / 2.05 / 2.2), so the 2.35 mm braid snaps in and stays when the plate is lifted. The 2.8 mm raceway prints as a short bridge with no supports.
-5. Roof over the raceway is at least 3.5 mm everywhere outside the floor slot. The bottom face outside the raceway, the floor slot, and the Ø34 hole stays at Z = 0, so the plate sits flat.
+2. **Floor slot**: a through slot in the well floor, about **3.0 mm** wide, running about **14 mm** in +X from the gate to the well wall at X = 83.3. The cable descends gradually from its exit height on the puck rim (about 4.4 mm above the plate bottom) into the raceway below. No sharp bend at the strain relief. The phone covers the slot.
+3. **Bottom raceway**: open on the bottom, **2.8 mm** wide × **3.4 mm** deep (0.8 mm pinch lip plus 2.6 mm clear for the 2.35 mm braid; 3.2 mm left too little room above the lips). It starts under the floor slot at X = 80, turns to +Y at the well wall (X = 83.3) with a **20 mm** centerline bend radius, and runs straight along X = 103.3 to the **+Y back edge**. It never crosses a grille slot or the camera slot.
+   - **Back-edge exit**: the sloped back edge drops below the roof minimum near the edge, so the raceway opens into a full-height 2.8 mm notch from Y ≈ 81.4 to the edge instead of leaving a feather-thin roof.
+4. **Pinch points**: three short narrowings, each about 3 mm long, at path distances 6, 22 and 75 mm from the raceway start, where the bottom 0.8 mm of the mouth closes to **2.05 mm** (coupon variants 1.9 / 2.05 / 2.2), so the 2.35 mm braid snaps in and stays when the plate is lifted. The 2.8 mm raceway prints as a short bridge with no supports.
+5. Roof over the raceway is at least 2.0 mm everywhere outside the floor slot and the exit notch; under the full-height rim it is about 8.6 mm. The bottom face outside the raceway, the floor slot, and the Ø34 hole stays at Z = 0, so the plate sits flat.
 
 ## Fit coupons (new 3MF)
 
-New file `designs/iphone-duo/iPhone-Duo-Plate/iPhone Duo Plate MagSafe fit coupons.3mf`, model-only, all parts flat on the U1 bed inside the 5 mm edge margin, no supports.
+Generated file `output/iphone-duo/iPhone Duo Plate MagSafe fit coupons.3mf` (AGENTS.md: `output/<design>/` is the only mutable artifact destination, coupons included), model-only, all parts flat on the U1 bed inside the 5 mm edge margin, no supports.
 
-- **Center-check template**: a 0.8 mm sheet in the phone's open outline (164.6 × 117.8 mm), with the camera-slot cutout and a Ø56 hole at the candidate center. Lay it on the back of the open phone with its edges aligned, then drop the puck into the hole. If the magnets pull the puck to one side of the hole, the center is off; mark and measure the offset and update the center. Engraved crosshair ticks at 1 mm spacing around the hole make the offset readable.
-- **Three bore coupons**, each a roughly 75 × 75 mm cut from the production pocket geometry at full floor height: bore, ledge, Ø34 opening, gate, floor slot, the first 30 mm of pinched raceway, and the grille slots that fall inside the cut, so the slot finish and chamfer can be judged too. Bores **55.8 / 56.0 / 56.2 mm** with pinch widths **1.9 / 2.05 / 2.2 mm**, identified by 1, 2 or 3 notches on one edge.
+- **Center-check template**: a thin replica of the well, a 0.8 mm sheet with a 3 mm perimeter lip whose inside matches the well exactly, so the phone sits in it with the same 0.6 mm play as in the plate. It has the camera-slot cutout and an oversized **Ø66** hole at the candidate center, so the puck is free to self-center (a Ø56 hole would have held the puck in place and hidden any error). The hole's +Y side is cut flat at Y = 27.1, keeping a 2.0 mm strip below the camera opening.
+  - Use: lay the template lip-up, set the puck face-up in the hole, lower the open phone back-down into the lip, then lift phone, template and puck together and turn them over. Measure the four gaps between the puck rim and the hole edges with calipers.
+  - Offset from the X-ray estimate: **dx = (gap+X − gap−X) / 2**, **dy = (gap−Y − gap+Y − 3.60) / 2**. Nominal gaps for a 55.5 mm puck: 5.25 mm at ±X and −Y, 1.65 mm at the flat +Y edge. If the puck touches the flat edge, the center is at least 1.65 mm further +Y.
+- **Three bore coupons**, each a 101.6 × 68 mm cut (X 10.4–112, Y −40–28) from the production plate geometry at full height: bore, ledge, Ø34 opening, gate, floor slot, the first 30 mm of pinched raceway, and the grille slots that fall inside the cut, so the slot finish and chamfer can be judged too. Bores **55.8 / 56.0 / 56.2 mm** with pinch widths **1.9 / 2.05 / 2.2 mm**, identified by 1, 2 or 3 V-notches on the −Y edge of the rim.
 - Coupons are built by the same script functions as the plate, so the tested geometry is the production geometry.
 
 Fit checks with the coupons: puck drops in by hand; puck stays put when lifted by its cable; face sits just below the coupon floor; puck pushes out through the Ø34 hole; cable lies in the floor slot without a kink; braid snaps into the pinch and stays.
@@ -138,8 +142,8 @@ Fit checks with the coupons: puck drops in by hand; puck stays put when lifted b
 ## Files
 
 - New script [designs/iphone-duo/iPhone-Duo-Plate/add_magsafe_pocket.py](designs/iphone-duo/iPhone-Duo-Plate/add_magsafe_pocket.py) using the pinned `manifold3d` via `uv run`. It edits the existing mesh; the plate is not rebuilt in OpenSCAD.
-- New coupon mesh `designs/iphone-duo/iPhone-Duo-Plate/iPhone Duo Plate MagSafe fit coupons.3mf`.
-- New plate mesh `designs/iphone-duo/iPhone-Duo-Plate/iPhone Duo Plate 260 sloped magsafe.3mf`, same bed transform as the current plate, model-only so Orca does not inherit the old Bambu profile errors.
+- Coupon mesh `output/iphone-duo/iPhone Duo Plate MagSafe fit coupons.3mf` (generated, reproducible bytes).
+- Plate mesh `output/iphone-duo/iPhone Duo Plate 260 sloped magsafe.3mf`, same bed transform as the current plate, model-only so Orca does not inherit the old Bambu profile errors.
 - Short note in [designs/iphone-duo/README.md](designs/iphone-duo/README.md) and today's journal. A current host plan file is written at the start of the edit, per repo policy. No commit unless you ask.
 
 ## Checks before calling it done
@@ -150,7 +154,7 @@ Fit checks with the coupons: puck drops in by hand; puck stays put when lifted b
 - Every wall between bore, Ø34 hole, grille slots, camera slot, floor slot, raceway, and notch is at least **2.0 mm** by the shortest path.
 - Camera slot unchanged.
 - No trace of the old round vents remains. Every grille slot passes through, is at least 15 mm long, and keeps at least 3.5 mm land to its neighbors (2.5 mm at the chamfered top) and the stated margins to every feature.
-- Raceway 2.8 × 3.2 mm, open on the bottom, bend radius at least 20 mm, pinch points at the tuned width, exiting only the +Y back edge.
+- Raceway 2.8 × 3.4 mm, open on the bottom, bend radius at least 20 mm, pinch points at the tuned width, exiting only the +Y back edge.
 - Bottom face outside the openings still at Z = 0 in bed coordinates.
 - Thumb notch present at −X; outer sloped ends otherwise unchanged. No Watch puck.
 
