@@ -1,43 +1,44 @@
 # iphone-duo (print assets)
 
-This directory holds **MagSafe desk-stand / plate** print files whose product
-names include “Duo” (for example MagSafe Duo desk stands and trimmed plates).
-
-It is **not** the engineering reference for Apple’s foldable **iPhone Duo**
-phone or Apple’s official **iPhone Duo Folio with Kickstand** / **iPhone Duo
-Case**.
-
-For phone/case/MagSafe accessory design specs, use:
-
-- `references/engineering/apple/iphone_duo/`
-- Narrative research: `reports/iPhone Duo accessory design.md`
+This directory holds MagSafe desk-stand / plate print files and the in-progress
+bare iPhone Duo plate modification. General phone/case engineering references
+live in `references/engineering/apple/iphone_duo/`; narrative research is in
+`reports/iPhone Duo accessory design.md`.
 
 ## iPhone Duo Plate: MagSafe pocket (in progress)
 
-Governing plan: `plans/current/2026-10-22-14-32-52_iphone-duo-plate-magsafe-pocket.md`
-(design detail in `.cursor/plans/plate_magsafe_pocket_b889b55d.plan.md`).
+Governing plan:
+`plans/current/2026-10-22-14-32-52_iphone-duo-plate-magsafe-pocket.md`.
+Design detail: `.cursor/plans/plate_magsafe_pocket_b889b55d.plan.md`.
 
-`iPhone-Duo-Plate/add_magsafe_pocket.py` edits the existing
-`iPhone Duo Plate 260 sloped.3mf` mesh with manifold3d. It adds a 25 W MagSafe
-puck pocket at the estimated magnet-ring center, a Ø34 push-out opening, a
-parallel-slot vent grille that replaces the twenty round vents, a thumb notch,
-and a pinched underside cable raceway that exits the back (+Y) edge. The source
-plate is never modified. Generated meshes go to `output/iphone-duo/`.
+### Current hardware and artifact status — 2026-10-22
+
+The user reports an Apple A3502, puck Ø55.50 × 4.37 mm, cable Ø3.05 mm,
+no separate collar, and an actual bare Duo available for testing.
+
+**The existing fit-coupon 3MF is superseded for this hardware.**
+It and `iPhone-Duo-Plate/add_magsafe_pocket.py` still use the previous smaller
+cable channel and unvalidated seating/retention assumptions. Do not print that
+file as the next fit test. No corrected CAD was generated in this checkpoint.
+
+Next: measure the magnet center directly with the puck attached to the phone.
+The governing plan defines A/B measurements and the coordinate conversion.
+Protected bare-phone support locations and cable exit height also remain open.
+
+The revised sequence is physical measurements, shared geometry correction,
+independent bore/cable coupons, actual phone-removal and charging tests, then
+the full plate and requested grille. The source
+`iPhone-Duo-Plate/iPhone Duo Plate 260 sloped.3mf` remains unchanged.
+Generated artifacts belong in `output/iphone-duo/`.
+
+After the script has been corrected and reviewed, its build entrypoints are:
 
 ```bash
 uv run python designs/iphone-duo/iPhone-Duo-Plate/add_magsafe_pocket.py --coupons
 uv run python designs/iphone-duo/iPhone-Duo-Plate/add_magsafe_pocket.py --plate
 ```
 
-`--coupons` writes `output/iphone-duo/iPhone Duo Plate MagSafe fit coupons.3mf`:
-
-- **Center-check template** (print lip up). Set the puck face-up in the Ø66
-  hole, lower the open phone back-down into the lip, lift everything together
-  and turn it over. Measure the four puck-to-hole gaps:
-  `dx = (gap+X - gap-X) / 2`, `dy = (gap-Y - gap+Y - 3.60) / 2`.
-  Nominal gaps are 5.25 mm at ±X and -Y and 1.65 mm at the flat +Y edge.
-- **Three coupons** cut from the production geometry, marked by 1, 2 or 3
-  V-notches: bore 55.8 / 56.0 / 56.2 mm with cable pinch 1.90 / 2.05 / 2.20 mm.
-
-Selection rules for bore, pinch and center are in the governing plan. The plate
-is not print-ready until those results are applied and the plate is verified.
+Running these commands now reproduces the superseded geometry; a successful
+build does not establish fit for the measured charger. The revised plate is
+not print-ready. Structural connections, minimum material widths, support
+contact, and physical fit remain unverified.

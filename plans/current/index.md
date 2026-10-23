@@ -2,7 +2,7 @@
 
 Format: `created_at | path | title | summary`
 
-2026-10-22-14-32-52 | plans/current/2026-10-22-14-32-52_iphone-duo-plate-magsafe-pocket.md | MagSafe pocket for the 260 mm iPhone Duo plate | Add a tuned 25 W MagSafe puck pocket, slot vent grille, thumb notch, and back-edge cable raceway to the sloped Duo plate, validated first by production-derived fit coupons.
+2026-10-22-14-32-52 | plans/current/2026-10-22-14-32-52_iphone-duo-plate-magsafe-pocket.md | MagSafe pocket for the 260 mm iPhone Duo plate | Revise the plate and fit tests for the measured Apple A3502 and bare Duo; confirm alignment and support before regenerating coupons.
 2026-10-18-23-59-27 | plans/current/2026-10-18-23-59-27_6u-cyberdeck-4u-control-cover.md | Add a two-piece 4U control cover to the 6U cyberdeck | Resolve legacy control interfaces and printer limits, then add a removable rail-mounted 4U panel with four logical control regions and two printable halves.
 2026-10-16-22-00-00 | plans/current/2026-10-16-22-00-00_cicero-head-gravity-joints.md | Implement gravity-seated joints for the Cicero head | Resolve a continuous neck owner, add installable head joints, and verify flat-bed outputs.
 2026-10-04-11-35-16 | plans/current/2026-10-04-11-35-16_create-6u-cyberdeck.md | Create 6u_cyberdeck 6U ten-inch-rack case (80 mm deep) | Build and correct a standalone 6U ten-inch-rack case (254 x 293.9 x 80 mm outer, 222.25 x 266.7 mm opening) with four quadrant leaves, M3 seam stations, forward side joints at Y=40 and a four-point internal rear-center bridge; physical validation and publication remain pending.

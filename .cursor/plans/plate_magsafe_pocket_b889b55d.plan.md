@@ -1,161 +1,210 @@
 ---
 name: Plate MagSafe Pocket
-overview: Add a top-drop Apple 25 W MagSafe pocket to the 260 mm sloped Duo plate at the measured magnet-ring center, with a tuned bore, an open floor under the puck, a thumb notch, a parallel-slot vent grille that frames the puck, and a gently bent cable path that leaves the back edge away from the user. Fit coupons and a center-check template print first.
+overview: Fit an Apple A3502 to the existing 260 mm sloped Duo plate using user-measured hardware, direct phone alignment measurements, independent fit coupons, and a verified back-edge cable route.
 todos:
-  - id: host-plan
-    content: Write and promote a short current host plan for the mesh edit under plans/current, regenerate and check plan indexes.
-    status: completed
   - id: measure
-    content: Caliper the 25 W puck (diameter, thickness, cable exit height, strain-relief collar length and diameter). Record values; stop if they differ from the assumptions below.
+    content: Record actual charger dimensions and phone configuration.
+    status: completed
+  - id: locate
+    content: Measure the magnet center on the actual bare phone; establish protected support locations and cable exit height.
     status: pending
   - id: script
-    content: "Add add_magsafe_pocket.py with named constants and asserts: pocket at the X-ray ring center, Ø34 floor opening with ledge, all 20 round vents filled and replaced by the slot grille, floor slot, pinched bottom raceway to the back edge, thumb notch. One function builds both the plate and the coupons."
-    status: completed
+    content: Revise the existing script for the measured A3502 and independent fit tests; old geometry is superseded.
+    status: pending
   - id: coupons
-    content: Generate the fit-coupon 3MF (center-check template plus three bore coupons) and print it.
-    status: in_progress
-  - id: tune
-    content: Apply coupon results to the constants (ring center, bore diameter, pinch width). Record the chosen values and why.
+    content: Generate and physically test corrected coupons using production settings.
     status: pending
-  - id: mesh
-    content: Generate the model-only MagSafe plate 3MF with the existing bed placement; leave the sloped plate unchanged.
-    status: pending
-  - id: verify
-    content: Section-check center, bore, ledge, opening, walls, vent fill, grille slots and lands, floor slot, raceway, pinch points, notch, flat bottom, and sloped ends.
-    status: pending
-  - id: docs
-    content: Update the iphone-duo README and today's journal. Do not commit.
+  - id: plate
+    content: Apply the measured fit results, generate the plate, and verify geometry and assembled behavior.
     status: pending
 isProject: false
 ---
 
 # MagSafe pocket in the 260 mm Duo plate
 
-## Existing plate (measured from the mesh)
+## Current status and controlling inputs
 
-The file [designs/iphone-duo/iPhone-Duo-Plate/iPhone Duo Plate 260 sloped.3mf](designs/iphone-duo/iPhone-Duo-Plate/iPhone%20Duo%20Plate%20260%20sloped.3mf) is a single manifold solid, **260 × 173 × 12 mm**, placed on the Snapmaker U1 bed at X 5.5–265.5 mm. It is a shallow tray for an **open** Duo, back down, not a stand. Local coordinates below have the origin at the plate center and Z = 0 at the plate bottom.
+Revised 2026-10-22 after the user supplied measurements during the plan review.
+The existing script and generated coupon 3MF still implement the previous
+2.35 mm cable assumption. They are superseded for fit validation of this charger;
+no corrected CAD has been generated in this documentation checkpoint.
 
-- Phone well: X −82.5 to +83.3, Y −59.1 to +59.9 (**165.8 × 119.0 mm**), about 0.6 mm clearance per side around the open phone (164.6 × 117.8 × 5.2 mm). Well depth **5.25 mm**, so the phone sits flush with the rim. Well center is **(0.4, 0.4)**.
-- Floor under the well is **6.75 mm** (Z 0 to 6.75).
-- Camera slot: through opening X 15.5 to 82.5, Y 29.1 to 59.1 (**67 × 30 mm** stadium with fully rounded ends) in the +X / +Y corner.
-- Twenty **Ø18 mm** through vents. No finger notch. No charger.
-
-Orientation: the camera end of the phone is +Y. With the phone open in landscape, that is the edge farthest from the user, so **+Y is the back edge** and −Y faces the user. The camera half is +X.
-
-## Where the magnet ring is
-
-Apple has not published the Duo ring position. The reference [references/engineering/apple/iphone_duo/device.md](references/engineering/apple/iphone_duo/device.md) only says the MagSafe face is on the camera half. It does not say the ring is centered on that half. The previous plan assumed it was.
-
-The X-ray in `designs/iphone-duo/iPhone-Duo-Plate/Screenshot 2026-10-22 at 1.31.26 PM.png` gives a better estimate. A circle fit to the ring gives Ø53.8 mm against Apple's 54.1 mm ring OD, so the image scale is trustworthy (phone height 117.8 mm = 1141 px). Results:
-
-- Across the half, the ring is centered within about 0.4 mm.
-- Along the phone, the ring center is about **2.7 mm away from the camera end**.
-
-Estimated pocket center in plate coordinates: **(41.2, −2.3) mm**. This replaces the earlier (41.6, 0.4).
-
-The well holds the phone to about 0.6 mm per side and MagSafe self-alignment is at most 1.55 mm, so this center is the alignment lock. It must be confirmed physically with the center-check template before the full plate is cut. The corrected center also clears the camera slot: the wall between bore and slot grows from about 0.7 mm to about **3.4 mm**, so the camera slot is not modified.
-
-## Puck
-
-Target puck: Apple **25 W MagSafe Charger (A2580 / A3250)**. User confirmed 2026-10-22 that the puck in hand is this 25 W charger. Published size **Ø 55.4–55.5 mm × 4.45–4.53 mm**, braided cable about **Ø 2.35 mm** exiting radially from the rim (Folio photo in the design folder). Still unverified until the `measure` step: diameter, rim thickness, cable diameter, cable-center height above the puck back, and any strain-relief collar length and diameter.
-
-Stop condition: if a caliper value differs from the published size by more than 0.2 mm, or a molded elbow is present, stop and revise the plan before cutting.
-
-## The pocket
-
-All values are named constants in the script with `assert()` guards.
-
-- `minimum_wall_thickness = 2.0` mm. `minimum_structural_overlap = 2.0` mm (declared for policy; the part is one solid with no joins). No feature may leave less than 2.0 mm of plastic. There is no fallback that accepts thinner walls; if a check fails, stop and revise the plan.
-- **Center** `(41.2, −2.3)` from the X-ray, replaced by the center-check result.
-- **Bore** starting value Ø **56.0 mm**, final value chosen from the coupons (55.8 / 56.0 / 56.2). Pick the tightest bore the puck drops into by hand and lifts out of only with the push-out hole. That light friction, plus the cable in the floor slot, keeps the puck seated when the phone is lifted. No crush ribs, lip, or adhesive unless the coupons show the puck still lifts out.
-- Bore tessellated with at least **256 segments** so flat facets do not shrink the printed hole.
-- **Depth** 4.6 mm from the well floor, so the puck face sits 0.07–0.15 mm below the floor and the phone rests on plastic, not on the puck.
-- **Open floor**: a Ø **34 mm** through-hole on the same center, leaving a **ledge** 2.15 mm thick and about 11 mm wide that carries the puck rim. The hole lets you push the puck out from below and lets heat escape from the puck back.
-- **Vents**: all twenty round vents are filled and replaced by the slot grille described below, so no old vent can punch the ledge.
-- Check the ledge between the Ø34 hole and the bore, and between the bore and the camera slot, against the 2.0 mm minimum.
-
-## Vent grille
-
-The twenty Ø18 holes are a partial hex grid broken up by the camera slot and the well edge, so they read as random. Replace them with one ordered system: parallel pill-shaped slots, like a speaker grille, whose ends trace the pocket and camera slot with a constant margin. The puck becomes the focal point, framed by a halo of shorter slots.
-
-Fill first: union a Ø18.4 mm plug into each old vent over the floor height (Z 0 to 6.75), then cut the new slots. The result is one solid with no print seam.
-
-Layout rules, all named constants:
-
-| Constant | Value | Purpose |
+| Input | Value | Evidence |
 |---|---|---|
-| `vent_slot_width` | 4.0 mm | Pill slot width, full round ends |
-| `vent_slot_pitch` | 7.5 mm | Center spacing; lands between slots 3.5 mm |
-| `vent_slot_axis` | Y | Slots run across the phone, perpendicular to the hinge |
-| `vent_border_margin` | 7.0 mm | Solid band inside the well wall |
-| `vent_feature_margin` | 6.0 mm | Constant gap to the bore, camera slot, floor slot, and thumb notch |
-| `vent_spine_width` | 10.0 mm | Solid band on the hinge line, splitting the grille into two fields |
-| `vent_min_slot_length` | 15.0 mm | Drop shorter fragments |
-| anchoring rule | — | Keep a slot only if at least one end reaches the border band; drops the island between the pocket and the camera slot |
-| `vent_top_chamfer` | 0.5 mm | Softens the slot edges under the cover display; top land stays 2.5 mm |
+| Charger model | Apple A3502 | User read from hardware |
+| Puck diameter | 55.50 mm | User measurement |
+| Puck thickness | 4.37 mm | User measurement |
+| Cable diameter | 3.05 mm | User measurement |
+| Separate collar | None | User observation |
+| Phone | Actual Duo available, used bare | User confirmation |
+| Magnet center | Not yet physically measured | X-ray estimate only |
+| Cable-center height above puck underside | Not yet measured | Resolve in profile/coupon |
+| Protected phone support locations | Not yet verified | Inspect actual bare phone |
 
-Slot positions are mirrored about the hinge line, starting one half-pitch outside the spine band. Each slot line is clipped to the allowed region (well inset by the border margin, minus every feature keep-out, minus the spine), and each surviving segment becomes one pill.
+These are user-reported measurements, not independently verified metrology;
+measurement uncertainty has not been supplied. Do not transfer model-specific
+dimensions or keep-in details from an A2580/A3250 drawing merely because the
+measured envelope matches. Apple lists A3502 among its current MagSafe chargers:
+https://support.apple.com/en-us/105047
 
-Preview at the X-ray center:
+Governing host plan:
+`plans/current/2026-10-22-14-32-52_iphone-duo-plate-magsafe-pocket.md`.
 
-- Cover half (−X): nine full-length slots, about 105 mm long.
-- Camera half (+X): one full-length slot beside the spine, then eight slots under the pocket whose top ends step around the bore as an arc.
-- No slots between the pocket and the camera slot; the only fragment there is under 15 mm and is dropped.
-- Open area about 4,850 mm², close to the old 5,080 mm², so cooling is unchanged.
+## Existing geometry and coordinates
 
-The layout is recomputed from the rules at the confirmed center; counts can shift by one slot. Every land is a rib supported at both ends by the border band, the spine, or the pocket margin.
+Source: `designs/iphone-duo/iPhone-Duo-Plate/iPhone Duo Plate 260 sloped.3mf`.
+One manifold solid, 260 × 173 × 12 mm; preserve the original source.
 
-## Thumb notch
+Plan coordinates: plate center in XY, Z = 0 at the bottom.
+The script currently uses source-local Z = -6 at the bottom: add 6 mm to convert
+its Z values to this plan frame.
 
-The phone sits flush in a tight well and is held by roughly 0.65–1.5 kgf of magnet pull, so it needs a grip.
+- Well: X -82.5 to 83.3, Y -59.1 to 59.9; center (0.4, 0.4).
+- Well floor: Z = 6.75; rim: Z = 12.
+- Camera opening: stadium bounded by X 15.5–82.5, Y 29.1–59.1.
+- Twenty original Ø18 through vents.
+- +X = camera half; +Y = camera end / back cable-exit edge.
+- Existing source bed translation: (135.5, 136, 6), applied to source-local mesh.
+  Its X bounds are 5.5–265.5 on the 270 mm bed; this is only 4.5 mm clearance
+  on the +X side. Verify slicer acceptance explicitly or recenter by 0.5 mm if
+  a strict 5 mm margin is required.
 
-- One thumb scoop at the **−X short end** of the well (the cover half, far from the magnets), centered on the well's Y center.
-- About **25 mm** wide along Y, reaching about **12 mm** into the rim, sloping down to **1.5 mm** below the well floor at the well edge so a fingertip gets under the phone.
-- Lifting from this end peels the phone off the puck, which needs much less force and does not pull the puck up.
-- Check that the scoop leaves at least 2.0 mm to the nearest grille slot and to the sloped outer end.
+## Step 1: measure the magnet center directly
 
-## Cable path
+Use the actual phone and charger before printing a template.
 
-Goal: the cable leaves the plate at the **back edge (+Y)**, away from the user, never across the front or the user's side. User confirmed (2026-10-22): "exit through the top of the plate" means the back (+Y) edge.
+1. Open the bare phone flat, with its back facing up and camera end away.
+   Support the inner display on a clean, soft surface without forcing the hinge.
+2. Attach the unplugged puck normally and let it settle magnetically with its
+   cable relaxed. Do not push it toward the estimated center.
+3. Measure parallel to the phone's width and height, through the puck center:
+   - A: camera-half outer side edge to the nearest puck rim.
+   - B: camera-end body edge to the nearest puck rim, using the body edge,
+     not the camera bump.
+4. Remove and reseat the puck three times; record A and B each time, to 0.1 mm
+   if practical. A ruler is useful for preliminary measurements; its precision
+   must not be reported as caliper precision.
+5. If spread exceeds 0.3 mm on either axis, improve the datums or use an
+   edge-registered measuring fixture before fixing the pocket center.
 
-The camera slot blocks a straight run to +Y from the pocket, so the cable goes around the +X side, where the rim is solid:
+For the nominal 164.6 × 117.8 mm phone centered in the current well:
+`center_x = 54.95 - A`, `center_y = 31.55 - B` (mm).
+These formulas assume the stated phone envelope and centered seating.
+They give (41.2, -2.3) for A = 13.75, B = 33.85; those are predictions,
+not measurements to aim for. Verify the actual envelope/clearance if results
+disagree. Include the well's approximately ±0.6 mm phone play per axis in the
+final alignment check; repeatability of center measurement does not remove it.
 
-1. **Gate**: a 5 mm wide opening in the bore wall at the puck's +X rim, open at the top, so puck and cable drop in together. Width is confirmed against the measured strain-relief collar.
-2. **Floor slot**: a through slot in the well floor, about **3.0 mm** wide, running about **14 mm** in +X from the gate to the well wall at X = 83.3. The cable descends gradually from its exit height on the puck rim (about 4.4 mm above the plate bottom) into the raceway below. No sharp bend at the strain relief. The phone covers the slot.
-3. **Bottom raceway**: open on the bottom, **2.8 mm** wide × **3.4 mm** deep (0.8 mm pinch lip plus 2.6 mm clear for the 2.35 mm braid; 3.2 mm left too little room above the lips). It starts under the floor slot at X = 80, turns to +Y at the well wall (X = 83.3) with a **20 mm** centerline bend radius, and runs straight along X = 103.3 to the **+Y back edge**. It never crosses a grille slot or the camera slot.
-   - **Back-edge exit**: the sloped back edge drops below the roof minimum near the edge, so the raceway opens into a full-height 2.8 mm notch from Y ≈ 81.4 to the edge instead of leaving a feather-thin roof.
-4. **Pinch points**: three short narrowings, each about 3 mm long, at path distances 6, 22 and 75 mm from the raceway start, where the bottom 0.8 mm of the mouth closes to **2.05 mm** (coupon variants 1.9 / 2.05 / 2.2), so the 2.35 mm braid snaps in and stays when the plate is lifted. The 2.8 mm raceway prints as a short bridge with no supports.
-5. Roof over the raceway is at least 2.0 mm everywhere outside the floor slot and the exit notch; under the full-height rim it is about 8.6 mm. The bottom face outside the raceway, the floor slot, and the Ø34 hole stays at Z = 0, so the plate sits flat.
+The previous Ø66 template is not required for this first measurement.
+If a fixture is needed later, use repeatable edge stops and accessible reference
+marks. Its clipped +Y hole boundary requires its own formula; the symmetric
+four-gap formula is invalid. For symmetric X references, positive displacement
+is `(gap-X - gap+X) / 2`, not the opposite sign previously documented.
 
-## Fit coupons (new 3MF)
+## Step 2: establish support, seating height, and cable envelope
 
-Generated file `output/iphone-duo/iPhone Duo Plate MagSafe fit coupons.3mf` (AGENTS.md: `output/<design>/` is the only mutable artifact destination, coupons included), model-only, all parts flat on the U1 bed inside the 5 mm edge margin, no supports.
+- The bare phone's cover display must not bear on abrasive grille ribs.
+  Identify non-display support locations; use suitable smooth/soft contact
+  surfaces and include their compressed thickness in the height stack.
+- Retire the fixed 4.6 mm pocket depth. With a measured 4.37 mm puck this would
+  recess the face by 0.23 mm relative to the original floor.
+- Parameterize puck seating and phone supports together. If the puck face is
+  `s` above the original floor and the puck sits directly on its ledge:
+  `pocket_depth = 4.37 - s`;
+  `ledge_thickness = 6.75 - pocket_depth`.
+  Determine `s` from the support stack, printed-height checks, and contact
+  requirements. Do not lock an untested height or allow phone rocking.
+- Keep the local holder below the relevant charger top datum; verify applicable
+  A3502 keep-in geometry and the actual phone assembly.
+- Measure/observe the cable exit profile and model the complete 3D cable
+  envelope, including its downward transition. No separate collar does not
+  justify an immediate sharp bend at the housing.
 
-- **Center-check template**: a thin replica of the well, a 0.8 mm sheet with a 3 mm perimeter lip whose inside matches the well exactly, so the phone sits in it with the same 0.6 mm play as in the plate. It has the camera-slot cutout and an oversized **Ø66** hole at the candidate center, so the puck is free to self-center (a Ø56 hole would have held the puck in place and hidden any error). The hole's +Y side is cut flat at Y = 27.1, keeping a 2.0 mm strip below the camera opening.
-  - Use: lay the template lip-up, set the puck face-up in the hole, lower the open phone back-down into the lip, then lift phone, template and puck together and turn them over. Measure the four gaps between the puck rim and the hole edges with calipers.
-  - Offset from the X-ray estimate: **dx = (gap+X − gap−X) / 2**, **dy = (gap−Y − gap+Y − 3.60) / 2**. Nominal gaps for a 55.5 mm puck: 5.25 mm at ±X and −Y, 1.65 mm at the flat +Y edge. If the puck touches the flat edge, the center is at least 1.65 mm further +Y.
-- **Three bore coupons**, each a 101.6 × 68 mm cut (X 10.4–112, Y −40–28) from the production plate geometry at full height: bore, ledge, Ø34 opening, gate, floor slot, the first 30 mm of pinched raceway, and the grille slots that fall inside the cut, so the slot finish and chamfer can be judged too. Bores **55.8 / 56.0 / 56.2 mm** with pinch widths **1.9 / 2.05 / 2.2 mm**, identified by 1, 2 or 3 V-notches on the −Y edge of the rim.
-- Coupons are built by the same script functions as the plate, so the tested geometry is the production geometry.
+## Step 3: independent fit coupons
 
-Fit checks with the coupons: puck drops in by hand; puck stays put when lifted by its cable; face sits just below the coupon floor; puck pushes out through the Ø34 hole; cable lies in the floor slot without a kink; braid snaps into the pinch and stays.
+Use shared production geometry, intended material, nozzle, layer height,
+orientation, and slicer compensation. Record printed dimensions as well as
+nominal dimensions. Do not treat manifoldness as physical-fit evidence.
 
-## Files
+- Bore trials: start with 55.8 / 56.0 / 56.2 mm as clearance-fit candidates.
+  They have 0.3 / 0.5 / 0.7 mm nominal diametral clearance and do not establish
+  retention. Choose the smallest that permits gentle insertion and push-out.
+- Cable trial: begin with an open 3.6 mm wide × 3.6 mm deep channel as an
+  unverified starting candidate for the measured Ø3.05 cable. It gives 0.55 mm
+  nominal total clearance in each direction without a retaining lip.
+  Check printed clearance and whether the cable remains above the bottom plane.
+- Retire 1.90 / 2.05 / 2.20 mm pinch widths and the old 2.8 mm channel.
+  Test any new cable retainer separately from bore selection. A retainer must
+  preserve a clear cavity above it and must not damage/compress the braid.
+- Include the full vertical cable transition and 20 mm starting XY bend radius
+  in a functional coupon, rather than assuming an XY radius proves the Z bend.
+- Include the Ø34 push-out opening and resulting support ledge where feasible.
+  Verify the final ledge after the gate, floor slot, and neighboring cuts.
+- Keep the puck seated during repeated actual phone attachment/removal, both
+  cold and after representative charging. Support the coupon so its weight is
+  not mistaken for production retention. Never lift the assembly by its cable
+  as the retention acceptance test.
+- If a clearance bore does not retain the puck, add and test shallow sidewall
+  retention features, then repeat removal and warm-use checks. The cable is
+  not the puck's anti-lift mechanism.
 
-- New script [designs/iphone-duo/iPhone-Duo-Plate/add_magsafe_pocket.py](designs/iphone-duo/iPhone-Duo-Plate/add_magsafe_pocket.py) using the pinned `manifold3d` via `uv run`. It edits the existing mesh; the plate is not rebuilt in OpenSCAD.
-- Coupon mesh `output/iphone-duo/iPhone Duo Plate MagSafe fit coupons.3mf` (generated, reproducible bytes).
-- Plate mesh `output/iphone-duo/iPhone Duo Plate 260 sloped magsafe.3mf`, same bed transform as the current plate, model-only so Orca does not inherit the old Bambu profile errors.
-- Short note in [designs/iphone-duo/README.md](designs/iphone-duo/README.md) and today's journal. A current host plan file is written at the start of the edit, per repo policy. No commit unless you ask.
+## Step 4: finish the plate after physical results
 
-## Checks before calling it done
+Keep the source plate, camera opening, thumb access at -X, and back (+Y) cable
+exit intent. Retain the requested ordered grille as a later geometry step;
+it is not needed to establish charger fit.
 
-- One manifold shell for the plate; each coupon is one shell.
-- Bore center within **0.1 mm** of the confirmed center; bore at the tuned diameter, depth 4.6 mm, ledge 2.15 mm thick.
-- Ø34 opening passes through; ledge width at least 2.0 mm everywhere.
-- Every wall between bore, Ø34 hole, grille slots, camera slot, floor slot, raceway, and notch is at least **2.0 mm** by the shortest path.
-- Camera slot unchanged.
-- No trace of the old round vents remains. Every grille slot passes through, is at least 15 mm long, and keeps at least 3.5 mm land to its neighbors (2.5 mm at the chamfered top) and the stated margins to every feature.
-- Raceway 2.8 × 3.4 mm, open on the bottom, bend radius at least 20 mm, pinch points at the tuned width, exiting only the +Y back edge.
-- Bottom face outside the openings still at Z = 0 in bed coordinates.
-- Thumb notch present at −X; outer sloped ends otherwise unchanged. No Watch puck.
+Route from the puck's +X edge through the floor into the underside channel,
+around the camera opening and out the back. Recompute all margins with the
+larger cable channel. Open the terminal channel through the sloped edge where
+a roof would otherwise become too thin; the start of that notch is derived
+from final geometry, not the previous Y ≈ 81.4 result.
 
-Structural joins: not applicable (one solid, no seam). Minimum internal edge: passed only if the 2.0 mm section checks pass. Revision/config: these mesh files, not an OpenSCAD revision. Build scope: mesh boolean, not `scad_build_all.py`.
+For the grille, retain provisional 4 mm slots / 7.5 mm pitch, 7 mm well-border
+margin, 6 mm feature margin, 10 mm hinge spine, 15 mm minimum slot length,
+and 0.5 mm top chamfer. Recompute the layout at the measured pocket center.
+Apply margins to the finished chamfered boundaries, not only slot centerlines.
+Slots running along Y are parallel to the hinge direction in this coordinate
+system. Verify both support endpoints of every remaining rib.
+
+Filling old vents and cutting a new grille is a mesh Boolean operation, not
+a separately printed plug joint. Still verify continuous material after cuts.
+Similar open area does not establish similar cooling. Test representative
+charging with the actual phone, adapter, material, and desk contact.
+If heat or charging behavior is unacceptable, revise underside airflow/support
+clearance and retest rather than claiming the holes guarantee cooling.
+
+## Verification and files
+
+Declare `minimum_wall_thickness = 2.0 mm` and
+`minimum_structural_overlap >= minimum_wall_thickness`.
+Apply the material minimum to actual structural ligaments in all relevant
+section directions, including Z. Do not require material between intentionally
+connected voids. Thin measuring sheets and any flexible retainer require an
+explicit part-specific rationale; an XY slice scan cannot validate their
+vertical thickness. Structural connections remain unverified until audited.
+
+Before printing a revised coupon:
+- Verify exact exported dimensions, component count, bed placement, and layer
+  paths; check supports/bridges in Orca rather than assuming no supports.
+- Save input mesh hash, script/config hash, dependencies, and output hash.
+- State what the coupon validates and what it cannot validate.
+
+Before calling the final plate ready:
+- Confirm measured center, calibrated bore and seating height, support plane,
+  push-out access, camera clearance, notch, and complete cable envelope.
+- Measure shortest remaining ligaments after all cuts and chamfers; inspect rib
+  endpoints, cable transition/exit, and ledge in XY and vertical sections.
+- Check phone placement at the extremes of well play, safe cover-display
+  clearance, repeated phone removal, and charging behavior on the desk.
+- Verify source exterior preservation except declared changes and flat bed
+  contact. Document slicer settings and physical evidence separately from
+  manifold/connectivity evidence.
+
+Source script:
+`designs/iphone-duo/iPhone-Duo-Plate/add_magsafe_pocket.py`.
+Generated meshes:
+`output/iphone-duo/iPhone Duo Plate MagSafe fit coupons.3mf` and
+`output/iphone-duo/iPhone Duo Plate 260 sloped magsafe.3mf`.
+Update the design README, host plan, and append-only journal at checkpoints.
+No commit or push is authorized by this measurement update.
